@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tong Yang</title>
+    <link>https://yangtong1.github.io/</link>
+    <description>Recent content on Tong Yang</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://yangtong1.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Homepage</title>
+      <link>https://yangtong1.github.io/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://yangtong1.github.io/</guid>
+      <description>Tong Yang (杨仝) (Google Scholar) received his PHD degree in Computer Science from Tsinghua University in 2013. He visited Institute of Computing Technology, Chinese Academy of Sciences (CAS) China from 2013.7 to 2014.7. Now he is an associate professor in Computer Science Department, Peking University.
+Research Area: Network Big Data, Bloom filters, IP lookups, Sketches, KV stores, Hash tables, and etc.
+常年招收本校或外校本科实习生, 欢迎优秀同学洽谈攻读博士学位.
+Email: yangtongemail@gmail.com, yang.tong@pku.edu.cn
+Research Papers in 2021  Yikai Zhao, Kaicheng Yang, Zirui Liu, Tong Yang, Li Chen, Shiyi Liu, Naiqian Zheng, Ruixin Wang, Hanbo Wu, Yi Wang, Nicholas Zhang.</description>
+    </item>
+    
+  </channel>
+</rss>
