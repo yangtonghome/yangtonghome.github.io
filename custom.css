@@ -1,1 +1,17 @@
 /* You can add custom styles here. */
+table {
+	margin: 10px 0 25px 0;
+}
+
+table tr th, table tr td { 
+  background: #3B3B3B;
+  color: #FFF;
+  padding: 7px 4px;
+  text-align: left;
+}
+  
+table tr td {
+	background: #FFFFFF;
+	color: #47433F;
+	border-top: 0px solid #000;
+}
