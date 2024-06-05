@@ -1,4 +1,41 @@
-/* You can add custom styles here. */
-.large-text {
-    font-size: 1.5em; /* 调整字体大小，根据需要修改 */
+.breadcrumb-container {
+    background-color: #f8f9fa; /* 背景色 */
+    padding: 10px 20px; /* 内边距 */
+    border-radius: 5px; /* 圆角边框 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+/* 设置面包屑导航的样式 */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+}
+
+/* 设置图标的样式 */
+.icon.path {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px; /* 图标与文本之间的间距 */
+}
+
+/* 设置链接的样式 */
+.breadcrumb-link {
+    font-size: 1.2em; /* 调整字体大小 */
+    font-weight: bold; /* 加粗文字 */
+    color: #0056b3; /* 文字颜色 */
+    text-decoration: none; /* 去掉下划线 */
+    padding: 10px 15px; /* 增加内边距 */
+    border: 2px solid #0056b3; /* 边框颜色和宽度 */
+    border-radius: 5px; /* 圆角边框 */
+    margin-right: 10px; /* 按钮之间的间距 */
+    background-color: #e3f2fd; /* 按钮背景色 */
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* 添加过渡效果 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 按钮阴影效果 */
+}
+
+.breadcrumb-link:hover {
+    background-color: #d1ecf1; /* 悬停时背景色 */
+    color: #004085; /* 悬停时文字颜色 */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* 悬停时的阴影效果 */
+    text-decoration: none; /* 去掉下划线 */
 }
