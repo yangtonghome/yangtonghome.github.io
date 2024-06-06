@@ -39,3 +39,29 @@
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* 悬停时的阴影效果 */
     text-decoration: none; /* 去掉下划线 */
 }
+
+
+
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px;
+}
+.gallery-item {
+    flex: 1 0 21%; /* 每行显示4张图片 */
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+.gallery-item img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.gallery-item p {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
