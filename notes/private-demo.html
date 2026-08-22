@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>加密笔记示例 · 算法笔记</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,640&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="./assets/style-CHn5gg4z.js"></script>
+    <script type="module" crossorigin src="./assets/main-BzFMdDpP.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/style-BzspXnrX.css">
+  </head>
+  <body class="article-body">
+    <div class="page article">
+      <nav class="home-nav" aria-label="主页导航">
+        <a href="https://yangtonghome.github.io/">Homepage</a>
+        <a href="https://yangtonghome.github.io/talks.html">Talks</a>
+        <a href="https://yangtonghome.github.io/news.html">News!</a>
+        <a href="https://yangtonghome.github.io/photos.html">Photos!</a>
+        <a class="is-current" href="https://yangtonghome.github.io/notes/">笔记</a>
+      </nav>
+      <div id="note-content">
+        <div class="lock-card">
+          <p class="kicker">加密笔记</p>
+          <h1>加密笔记示例</h1>
+          <p class="lede">这篇有单独的密码。没有密码只能看到这一页，正文在文件里也是密文。</p>
+          <form id="note-lock">
+            <label for="note-password">本篇密码</label>
+            <input id="note-password" name="password" type="password" autocomplete="current-password" required />
+            <p class="lock-error" hidden>密码不对。</p>
+            <button type="submit">解锁</button>
+          </form>
+        </div>
+        <script type="application/json" id="note-cipher">{"slug":"private-demo","salt":"y5+rT2GCeyRaF4fJGWdGcw==","iv":"sFobY8KEor3aXhqC","cipher":"ijmssLuhrIafziS5zqHljFwvTBFcmN72220Pai/AAA0O2cOQTRM5rZogqvs7jrykVw0ylXsDVlLRM8ADPW1o76JJt0oeeoCu+n1GwIVfrXlvoyAOO6WJHHhxVG22wZCTxluxK/5PVFZBAj90r6EpbXTqoqymF1Vq7/kKbbULDnp2UG1S/SeJZ/jxmi5uGKZuL9ZFv7ufUV2suSHJZbmZ0P6IrFgGTcr1BIDa2X+fKnr4bpvm7Q5+mI2dxSEZ6mNzsK+A36IwYJvnO5DQjwvndOp3kA9Zc/FgfVXdZNE8grAeVPCgfMJsuczYaYk7Oe4XbD72Zzy98Xs88HwWggrPbusTCqQJtHk1I1mBKfI9paUnGrqw7paCrLzjgCjnH96sMj7Sa0rM8uyo6YQESLVr82wqWshwfS2hTuNLpq+rC9lmY26n+IfH7iVrfGtlCoRi4LbwZbeJ2CsfxVHKBqReSSWrJqpnwuYBVkqRdw/2W5P5gdn/La5k8wpr8EYDe6mA7do3fgbZ5X5cQVzZUNNyEM8fG3YJG8NoqVNY5jF1R8k0wF1l0Jsc1PregPrrd+ZBbI/pZXyUSrbL6/B5DKGNviZCq2ZKqVtdde5CoaUSu7QsrjWjxTurFDFkflIB9BRvsTUeNgDtBCT3aKtWoN/INkePdzsKx1RUpvBop1TcBuqpDNOtnBOXWJNQ6QM3UsGwhF4GsI4i7Tw4GgyKH2YwCg8uleVw/2TQe+Ize3PU2jNXvm5+icumaYcDR0yH09FaCNgLk8j/8IBsXaBdd0BEOejW6qYOReaAC9kOpQZ9X6HjmfZG//Dl8h7kDGtd9SdvnQgm5A/53S+dQxX3TYpWXb6BrPlfEMN3Qg7TCy6hpXUy+XU60Na/14CX5H4ZlVMCAsRwIZYdkXEHTIA9nDapkHqyry+eSbqkJ42phtlLr+nHBGVJkU9A+H7J2Q9mQCC6TYWWz5vRDuJXJQ/87LFPjJTNP4IjvuiJ0X2989ogeJeaT4/SJGaSQlUWUH70lpEdUd36pzZFcfXZKPF4hdcLGGSerrfoQfn23qgRKlyrwE7FZg=="}</script>
+        <script src="./unlock.js"></script></div><!-- /note-content -->
+    </div>
+  </body>
+</html>

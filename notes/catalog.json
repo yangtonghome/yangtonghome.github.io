@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "fairy2i",
+    "file": "fairy2i.html",
+    "title": "Fairy2i",
+    "summary": "把已有实数大模型无损改写成复域 widely-linear 形式，再用 {±1, ±i} 做相位感知量化，并用递归残差把有效精度推到 2-bit。",
+    "meta": "2025 · arXiv 2512.02901 · 极低比特量化",
+    "locked": false
+  },
+  {
+    "slug": "private-demo",
+    "file": "private-demo.html",
+    "title": "加密笔记示例",
+    "summary": "演示「一篇笔记一把密码」。没有密码只能看到解锁页，正文在仓库里也是密文。",
+    "meta": "示例 · 已加密",
+    "locked": true
+  }
+]
