@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fairy2i · 算法笔记</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,640&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
+    />
+    <script type="module" crossorigin src="./assets/fairy2i-Xp-OlzLH.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/style-CbpD_1wF.js">
+    <link rel="stylesheet" crossorigin href="./assets/style-Ie3NlCfs.css">
+  </head>
+  <body class="article-body">
+    <div class="page article">
+      <nav class="home-nav" aria-label="主页导航">
+        <a href="https://yangtonghome.github.io/">Homepage</a>
+        <a href="https://yangtonghome.github.io/talks.html">Talks</a>
+        <a href="https://yangtonghome.github.io/news.html">News!</a>
+        <a href="https://yangtonghome.github.io/photos.html">Photos!</a>
+        <a class="is-current" href="https://yangtonghome.github.io/notes/">笔记</a>
+      </nav>
+      <nav class="crumb">
+        <a href="./index.html">算法笔记</a>
+        <span>/</span>
+        <span>Fairy2i</span>
+      </nav>
+
+      <header class="hero">
+        <p class="kicker">从实数 checkpoint 走到复域 2-bit</p>
+        <h1>Fairy2i</h1>
+        <p class="subtitle">
+          Training Complex LLMs from Real LLMs with All Parameters in
+          $\{\pm 1,\pm i\}$
+        </p>
+        <p class="byline">
+          Feiyu Wang, Xinyu Tan, Bokai Huang, Yihao Zhang, Guoan Wang,
+          Peizhuang Cong, Tong Yang · 北京大学 · 通讯作者 yangtong@pku.edu.cn
+        </p>
+        <p class="links">
+          <a href="https://arxiv.org/abs/2512.02901">arXiv 2512.02901</a>
+          <a href="https://github.com/PKULab1806/Fairy2i-W2">代码</a>
+          <a href="https://huggingface.co/PKU-DS-LAB/Fairy2i-W2">模型</a>
+        </p>
+      </header>
+
+      <p class="lede">
+        iFairy 已经说明：把权重放在复平面的四次单位根
+        $\{\pm 1,\pm i\}$ 上，比实数里的二元 / 三元码本更吃得满 2-bit
+        预算。但它必须从零训练。Fairy2i 要解决的是更实际的问题——
+        <strong>已有的 LLaMA 一类实数模型，怎样无损改写成复域，再继续做极低比特
+        QAT</strong>。
+      </p>
+
+      <section>
+        <h2>为什么需要这一步</h2>
+        <p>
+          极低比特量化有两条常见路。PTQ 不重训，到 1–2 bit 时码本太小，校准也救不了离群通道。QAT
+          能适应量化噪声，但 BitNet 一类方法往往要从随机初始化训起；而实数码本
+          $\{+1,-1\}$ 或 $\{+1,0,-1\}$ 并没有用完 2-bit 的四个状态。
+        </p>
+        <p>
+          复域多了相位这一维。iFairy 用单位圆上的四个点当码本，训练出来的复值
+          Transformer 在同等比特下优于实数二元网络。缺的是兼容性：它接不上已经训好的
+          LLaMA、Qwen、OPT。Fairy2i 用 widely-linear
+          重参数化补上这条桥，量化前的前向与原实数层完全一致。
+        </p>
+      </section>
+
+      <section>
+        <h2>三条互相叠加的步骤</h2>
+        <div class="steps">
+          <article>
+            <p class="step-num">01</p>
+            <h3>Widely-linear 变换</h3>
+            <p>
+              任意偶数维实线性映射都可以唯一写成
+              $y = Ux + W\overline{x}$。量化前输出不变，因此可以直接吃进现成
+              checkpoint。
+            </p>
+          </article>
+          <article>
+            <p class="step-num">02</p>
+            <h3>相位感知量化</h3>
+            <p>
+              每个复权重按辐角投到最近的 $\{\pm 1,\pm i\}$，再用实轴 /
+              虚轴两组尺度恢复幅度。前向用量化副本，反向走 STE。
+            </p>
+          </article>
+          <article>
+            <p class="step-num">03</p>
+            <h3>递归残差量化</h3>
+            <p>
+              把残差再投一次同一码本。$T=2$ 时有效精度是每实参数 2
+              bit，也就是 Fairy2i-W2。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>无损的实数 → 复数改写</h2>
+        <p>
+          把实输入输出按最后一维拆成实部 / 虚部。原层 $\tilde y = R\tilde x$，$R$
+          分成 $2\times 2$ 实数块后，复矩阵由下式唯一确定：
+        </p>
+        <div class="equation">
+          \[
+          \begin{aligned}
+          \operatorname{Re} U &= \tfrac12(R_{11}+R_{22}), &
+          \operatorname{Im} U &= \tfrac12(R_{21}-R_{12}), \\
+          \operatorname{Re} W &= \tfrac12(R_{11}-R_{22}), &
+          \operatorname{Im} W &= \tfrac12(R_{12}+R_{21}).
+          \end{aligned}
+          \]
+        </div>
+        <p>
+          定理保证 $\tilde y = R\tilde x$ 当且仅当 $y = Ux + W\overline{x}$，且
+          $(U,W)$ 唯一。注意力里用 Hermitian 内积的实部作分数：
+          $\operatorname{Re}(q^{\mathrm H}k)$
+          正好回到原来的实点积，因此可以拆回更长的实向量去走 FlashAttention。
+        </p>
+        <p>
+          奇数维时补一个零通道再丢掉即可。Q/K/V/O 以及 FFN 的
+          Up / Gate / Down 都各自做一次同样的改写。
+        </p>
+      </section>
+
+      <section class="split">
+        <div>
+          <h2>码本就在单位圆上</h2>
+          <p>
+            PhaseQuant 选最近码字：
+            $b(w)=\arg\max_{s\in\{\pm 1,\pm i\}}\operatorname{Re}(w\overline s)$，
+            等价于按辐角四舍五入到 $i^k$。幅度用两条轴上的平均绝对值
+            $s_{\mathrm{re}}$、$s_{\mathrm{im}}$ 还原：
+          </p>
+          <div class="equation">
+            \[
+            \hat w = s_{\mathrm{re}}\,b_{\mathrm{re}} + i\,s_{\mathrm{im}}\,b_{\mathrm{im}}.
+            \]
+          </div>
+          <p>
+            四个码字用满 2-bit；推理时乘 $+1$ 是加，乘 $-1$ 是减，乘 $\pm i$
+            只是交换实虚部并改号，不必做乘法。$T$ 段残差彼此独立，可以并行累加。
+          </p>
+        </div>
+        <figure class="plane-card">
+          <figcaption>复平面上的 $\{\pm 1,\pm i\}$ 与一次残差修正</figcaption>
+          <canvas id="complex-plane" width="420" height="420"></canvas>
+          <p class="plane-legend">
+            实心点是码本；空心点是某个复权重；虚线是第一级量化后的残差，再投到同一码本。
+          </p>
+        </figure>
+      </section>
+
+      <section>
+        <h2>存储账是怎么算的</h2>
+        <p>
+          原实矩阵 $R\in\mathbb R^{(2n)\times(2m)}$ 有 $4nm$ 个实参数，改写成
+          $U,W\in\mathbb C^{n\times m}$ 共 $2nm$ 个复权重。每个复权重 2
+          bit，所以 $T=1$ 时总存储是 $4nm$ bit，正好
+          <strong>每实参数 1 bit</strong>。$T$ 段残差线性叠加，Fairy2i-W2 就是每实参数
+          2 bit。
+        </p>
+      </section>
+
+      <section>
+        <h2>LLaMA-2 7B 上的结果</h2>
+        <p>
+          在 RedPajama 子集上继续 QAT，约 300 亿 token。C4 验证集困惑度与五路
+          zero-shot 平均准确率如下（数字来自论文 Table 1）。
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>方法</th>
+                <th>Bits</th>
+                <th>C4 PPL ↓</th>
+                <th>Avg. Acc ↑</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>LLaMA-2 FP16</td>
+                <td>16</td>
+                <td>6.63</td>
+                <td>64.72</td>
+              </tr>
+              <tr class="ours">
+                <td>Fairy2i-W2</td>
+                <td>2</td>
+                <td>7.85</td>
+                <td>62.00</td>
+              </tr>
+              <tr>
+                <td>AQLM</td>
+                <td>2</td>
+                <td>8.54</td>
+                <td>57.28</td>
+              </tr>
+              <tr>
+                <td>GPTQ</td>
+                <td>3</td>
+                <td>10.61</td>
+                <td>53.08</td>
+              </tr>
+              <tr>
+                <td>QuIP#</td>
+                <td>2</td>
+                <td>11.01</td>
+                <td>52.23</td>
+              </tr>
+              <tr class="ours">
+                <td>Fairy2i-W1</td>
+                <td>1</td>
+                <td>11.03</td>
+                <td>48.66</td>
+              </tr>
+              <tr>
+                <td>Real-Ternary QAT</td>
+                <td>1.58</td>
+                <td>11.06</td>
+                <td>48.70</td>
+              </tr>
+              <tr>
+                <td>Real-Binary QAT</td>
+                <td>1</td>
+                <td>11.75</td>
+                <td>46.21</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          W2 把 2-bit 模型拉到接近 FP16：平均准确率 62.00% 对 64.72%，并明显好于
+          AQLM（57.28%）和 3-bit GPTQ。W1 在 1-bit 上超过同设定的实数二元基线。消融里
+          $T=1\to 2$ 收益很大，$T=2\to 3$ 已经变薄，所以 W2 是存储和精度的合适折中。
+        </p>
+      </section>
+
+      <section>
+        <h2>引用</h2>
+        <pre class="citation"><code>@article{wang2025fairy2i,
+  title={Fairy2i: Training Complex LLMs from Real LLMs
+         with All Parameters in {$\pm$1, $\pm$i}},
+  author={Wang, Feiyu and Tan, Xinyu and Huang, Bokai
+          and Zhang, Yihao and Wang, Guoan
+          and Cong, Peizhuang and Yang, Tong},
+  journal={arXiv preprint arXiv:2512.02901},
+  year={2025}
+}</code></pre>
+      </section>
+
+      <footer>
+        <p>
+          说明页依据论文公开文本整理，便于网页阅读；公式与表格以
+          <a href="https://arxiv.org/abs/2512.02901">arXiv:2512.02901</a> 为准。
+        </p>
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
+  </body>
+</html>

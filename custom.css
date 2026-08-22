@@ -8,7 +8,9 @@
 /* 设置面包屑导航的样式 */
 .breadcrumb {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 8px;
 }
 
 /* 设置图标的样式 */
