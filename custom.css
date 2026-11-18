@@ -67,3 +67,91 @@
     font-weight: bold;
     margin-top: 10px;
 }
+/* Mobile layout: keep all desktop rules above unchanged. */
+@media screen and (max-width: 39rem) {
+    .gdoc-nav,
+    .gdoc-header .gdoc-nav__control {
+        display: none;
+    }
+
+    .gdoc-page {
+        min-width: 0;
+        width: 100%;
+    }
+
+    #menu-control:checked ~ main .gdoc-page {
+        transform: none;
+        opacity: 1;
+    }
+
+    .gdoc-page__header.breadcrumb-container,
+    .gdoc-page__header .breadcrumb {
+        display: flex;
+    }
+
+    .gdoc-page__header.breadcrumb-container {
+        padding: 12px;
+    }
+
+    .breadcrumb-container > span:first-child {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .breadcrumb .icon.path {
+        display: none;
+    }
+
+    .breadcrumb-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        margin-right: 0;
+        padding: 10px 12px;
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+
+    .gdoc-markdown {
+        overflow-wrap: anywhere;
+    }
+
+    .gdoc-markdown > div[align="left"] {
+        float: none !important;
+    }
+
+    .gdoc-markdown img[alt="cover"] {
+        zoom: 1 !important;
+        float: none;
+        display: block;
+        width: 160px;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto 1rem;
+    }
+
+    .gdoc-markdown > div:has(> table) {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .gdoc-page > table {
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        table-layout: fixed;
+    }
+
+    .gdoc-page > table td {
+        font-size: 0.8125rem;
+        vertical-align: top;
+    }
+
+    .gdoc-page > table img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        padding-right: 4px !important;
+    }
+}
